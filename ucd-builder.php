@@ -28,11 +28,36 @@ pub struct UCEntry {
     pub na1: &'static str,
 }
 
-pub fn get_uc_table() -> [UCEntry; <?= count($ucd_chars) ?>] {
+pub fn get_uc_table(start: u32, end: u32) -> &'static [UCEntry] {
     const UC_TABLE: [UCEntry; <?= count($ucd_chars) ?>] = [
 <?php foreach ($ucd_chars as $i => $char): ?>
         UCEntry { cp: 0x<?= dechex(hexdec($char->cp)) ?>, c: '\u{<?= dechex(max(hexdec($char->cp), 0x20)) ?>}', na: "<?= $char->na ?>", na1: "<?= $char->na1 ?>" },
 <?php endforeach; ?>
     ];
-    return UC_TABLE;
+
+    if start == 0 && end == 0 {
+        return &UC_TABLE;
+    }
+    else {
+        let mut ustart: usize = 0;
+        let mut uend: usize = 0;
+
+        for (i, c) in UC_TABLE.iter().enumerate() {
+            if c.cp >= start {
+                ustart = i;
+                break;
+            }
+        }
+        for (i, c) in UC_TABLE.iter().enumerate() {
+            if c.cp == end {
+                uend = i + 1;
+                break;
+            }
+            else if c.cp > end {
+                uend = i;
+                break;
+            } 
+        }
+        return &UC_TABLE[ustart..uend];
+    }
 }
