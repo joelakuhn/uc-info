@@ -103,7 +103,7 @@ fn main() {
 
     if ascii {
         start = 0u32;
-        end = 256u32;
+        end = 255u32;
     }
     else if emoji {
         start = 0x1F300u32;
