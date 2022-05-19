@@ -28,11 +28,11 @@ pub struct UCEntry {
     pub na1: &'static str,
 }
 
-pub fn get_uc_table() -> Vec<UCEntry> {
-    let uc_table: Vec<UCEntry> = vec![
+pub fn get_uc_table() -> [UCEntry; <?= count($ucd_chars) ?>] {
+    const UC_TABLE: [UCEntry; <?= count($ucd_chars) ?>] = [
 <?php foreach ($ucd_chars as $i => $char): ?>
         UCEntry { cp: 0x<?= dechex(hexdec($char->cp)) ?>, c: '\u{<?= dechex(max(hexdec($char->cp), 0x20)) ?>}', na: "<?= $char->na ?>", na1: "<?= $char->na1 ?>" },
 <?php endforeach; ?>
     ];
-    return uc_table;
+    return UC_TABLE;
 }
