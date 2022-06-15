@@ -17,6 +17,10 @@ fn describe(c: &uc_table::UCEntry) -> &'static str {
 
 fn parse_int(codepoint_str : &str) -> Option<u32> {
     let maybe_cp = match codepoint_str.chars().nth(0) {
+        Some('0') => {
+            let (_, sliced) = codepoint_str.split_at(1);
+            return parse_int(sliced);
+        }
         Some('x') => {
             let (_, sliced) = codepoint_str.split_at(1);
             u32::from_str_radix(sliced, 16)
