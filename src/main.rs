@@ -29,6 +29,10 @@ fn parse_int(codepoint_str : &str) -> Option<u32> {
             let (_, sliced) = codepoint_str.split_at(1);
             u32::from_str_radix(sliced, 8)
         },
+        Some('b') => {
+            let (_, sliced) = codepoint_str.split_at(1);
+            u32::from_str_radix(sliced, 2)
+        },
         _ => codepoint_str.parse::<u32>(),
     };
     return match maybe_cp {
