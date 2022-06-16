@@ -79,6 +79,7 @@ fn main() {
     let mut positional_args : Vec<String> = vec![];
     let mut transcribe = false;
 
+    let mut decode = true;
     let mut describe = false;
     let mut search = false;
     let mut ascii = false;
@@ -88,15 +89,18 @@ fn main() {
 
     {
         let mut ap = ArgumentParser::new();
-        ap.refer(&mut search)
-            .add_option(&["-s", "--search"], StoreTrue,
-            "Search for a character by description");
-        ap.refer(&mut describe)
-            .add_option(&["-d", "--describe"], StoreTrue,
-            "Describe characters");
+        ap.refer(&mut decode)
+            .add_option(&["-c", "--decode"], StoreTrue,
+            "Decode codepoints (default)");
         ap.refer(&mut transcribe)
             .add_option(&["-t", "--transcribe"], StoreTrue,
             "Convert codepoints to characters");
+        ap.refer(&mut describe)
+            .add_option(&["-d", "--describe"], StoreTrue,
+            "Describe characters");
+        ap.refer(&mut search)
+            .add_option(&["-s", "--search"], StoreTrue,
+            "Search for a character by description");
         ap.refer(&mut ascii)
             .add_option(&["--ascii"], StoreTrue,
             "Consider only the ASCII block");
@@ -137,7 +141,7 @@ fn main() {
             print_codepoint(codepoint_str.as_str());
         }
     }
-    else if positional_args.len() > 0 {
+    else if decode && positional_args.len() > 0 {
         for codepoint_str in &positional_args {
             codepoint_str_lookup(uc_block, codepoint_str.as_str());
         }
