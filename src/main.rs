@@ -108,15 +108,15 @@ fn main() {
         ap.refer(&mut list)
             .add_option(&["-l", "--list-blocks"], StoreTrue,
             "List known blocks");
+        ap.refer(&mut block_arg)
+            .add_option(&["-b", "--block"], StoreOption,
+            "Specify a named block");
         ap.refer(&mut ascii)
             .add_option(&["--ascii"], StoreTrue,
             "Consider only the ASCII block");
         ap.refer(&mut emoji)
             .add_option(&["--emoji"], StoreTrue,
             "Consider only the emoji block");
-        ap.refer(&mut block_arg)
-            .add_option(&["-b", "--block"], StoreOption,
-            "Specify a named block");
         ap.refer(&mut positional_args)
             .add_argument("args", Collect,
             "Codepoint to describe. Prefix with x/o for hex/octal.");
