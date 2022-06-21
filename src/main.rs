@@ -1,9 +1,11 @@
 extern crate argparse;
 mod uc_table;
+mod uc_blocks;
 
 use std::u32;
 use std::char;
-use argparse::{ArgumentParser, StoreTrue, Collect};
+use std::process::exit;
+use argparse::{ArgumentParser, StoreOption, StoreTrue, Collect};
 
 fn describe(c: &uc_table::UCEntry) -> &'static str {
     if c.na.len() > 0 {
@@ -82,10 +84,12 @@ fn main() {
     let mut decode = true;
     let mut describe = false;
     let mut search = false;
+    let mut list = false;
     let mut ascii = false;
     let mut emoji = false;
     let mut start : u32 = 0;
     let mut end : u32 = 0;
+    let mut block_arg : Option<String> = None;
 
     {
         let mut ap = ArgumentParser::new();
@@ -101,17 +105,46 @@ fn main() {
         ap.refer(&mut search)
             .add_option(&["-s", "--search"], StoreTrue,
             "Search for a character by description");
+        ap.refer(&mut list)
+            .add_option(&["-l", "--list-blocks"], StoreTrue,
+            "List known blocks");
         ap.refer(&mut ascii)
             .add_option(&["--ascii"], StoreTrue,
             "Consider only the ASCII block");
         ap.refer(&mut emoji)
             .add_option(&["--emoji"], StoreTrue,
             "Consider only the emoji block");
+        ap.refer(&mut block_arg)
+            .add_option(&["-b", "--block"], StoreOption,
+            "Specify a named block");
         ap.refer(&mut positional_args)
             .add_argument("args", Collect,
             "Codepoint to describe. Prefix with x/o for hex/octal.");
         ap.parse_args_or_exit();
     }
+
+    if list {
+        for block in uc_blocks::get_uc_blocks() {
+            println!("{}\t{}", block.tex_name, block.description);
+        }
+        return;
+    }
+
+    match block_arg {
+        Some(block_name) => {
+            match uc_blocks::get_uc_block(block_name.as_str()) {
+                Some(block) => {
+                    start = block.start;
+                    end = block.end;
+                }
+                None => {
+                    eprintln!("Unknown block: {}", block_name);
+                    exit(1);
+                }
+            };
+        },
+        None => {}
+    };
 
     if ascii {
         start = 0u32;
@@ -146,7 +179,7 @@ fn main() {
             codepoint_str_lookup(uc_block, codepoint_str.as_str());
         }
     }
-    else if ascii || emoji {
+    else if start != 0 && end != 0 {
         search_keyword(uc_block, "*");
     }
 }
