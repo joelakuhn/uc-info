@@ -125,7 +125,7 @@ fn main() {
 
     if list {
         for block in uc_blocks::get_uc_blocks() {
-            println!("{}\t{}", block.tex_name, block.description);
+            println!("{:7x}{:7x}  {:40}\t{}", block.start, block.end, block.tex_name, block.description);
         }
         return;
     }
