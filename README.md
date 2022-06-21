@@ -80,16 +80,16 @@ List named blocks:
 
 ```
 target/debug/uc-info -l
-basiclatin      Basic Latin
-latinsupplement Latin-1 Supplement
-latinextendeda  Latin Extended-A
-latinextendedb  Latin Extended-B
-ipaextensions   IPA Extensions
-spacingmodifierletters  Spacing Modifier Letters
-combiningdiacriticalmarks       Combining Diacritical Marks
-greekandcoptic  Greek and Coptic
-cyrillic        Cyrillic
-cyrillicsupplement      Cyrillic Supplement
+      0     7f  basiclatin                              	Basic Latin
+     80     ff  latinsupplement                         	Latin-1 Supplement
+    100    17f  latinextendeda                          	Latin Extended-A
+    180    24f  latinextendedb                          	Latin Extended-B
+    250    2af  ipaextensions                           	IPA Extensions
+    2b0    2ff  spacingmodifierletters                  	Spacing Modifier Letters
+    300    36f  combiningdiacriticalmarks               	Combining Diacritical Marks
+    370    3ff  greekandcoptic                          	Greek and Coptic
+    400    4ff  cyrillic                                	Cyrillic
+    500    52f  cyrillicsupplement                      	Cyrillic Supplement
 ...
 ```
 
