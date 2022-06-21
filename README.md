@@ -6,10 +6,10 @@ A command line utility for looking up and inspecting unicode characters.
 
 ```
 Usage:
-  uc-info [OPTIONS] [CODEPOINT ...]
+  target/debug/uc-info [OPTIONS] [ARGS ...]
 
 Positional arguments:
-  codepoint             Codepoint to describe. Prefix with x/o for hex/octal.
+  args                  Codepoint to describe. Prefix with x/o for hex/octal.
 
 Optional arguments:
   -h,--help             Show this help message and exit
@@ -17,6 +17,8 @@ Optional arguments:
   -t,--transcribe       Convert codepoints to characters
   -d,--describe         Describe characters
   -s,--search           Search for a character by description
+  -l,--list-blocks      List known blocks
+  -b,--block BLOCK      Specify a named block
   --ascii               Consider only the ASCII block
   --emoji               Consider only the emoji block
 ```
@@ -71,25 +73,37 @@ $ uc-info -s "quotation mark"
 ‛	0x201b	8219	SINGLE HIGH-REVERSED-9 QUOTATION MARK
 “	0x201c	8220	LEFT DOUBLE QUOTATION MARK
 ”	0x201d	8221	RIGHT DOUBLE QUOTATION MARK
-„	0x201e	8222	DOUBLE LOW-9 QUOTATION MARK
-‟	0x201f	8223	DOUBLE HIGH-REVERSED-9 QUOTATION MARK
-‹	0x2039	8249	SINGLE LEFT-POINTING ANGLE QUOTATION MARK
-›	0x203a	8250	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
-❛	0x275b	10075	HEAVY SINGLE TURNED COMMA QUOTATION MARK ORNAMENT
-❜	0x275c	10076	HEAVY SINGLE COMMA QUOTATION MARK ORNAMENT
-❝	0x275d	10077	HEAVY DOUBLE TURNED COMMA QUOTATION MARK ORNAMENT
-❞	0x275e	10078	HEAVY DOUBLE COMMA QUOTATION MARK ORNAMENT
-❟	0x275f	10079	HEAVY LOW SINGLE COMMA QUOTATION MARK ORNAMENT
-❠	0x2760	10080	HEAVY LOW DOUBLE COMMA QUOTATION MARK ORNAMENT
-❮	0x276e	10094	HEAVY LEFT-POINTING ANGLE QUOTATION MARK ORNAMENT
-❯	0x276f	10095	HEAVY RIGHT-POINTING ANGLE QUOTATION MARK ORNAMENT
-⹂	0x2e42	11842	DOUBLE LOW-REVERSED-9 QUOTATION MARK
-〝	0x301d	12317	REVERSED DOUBLE PRIME QUOTATION MARK
-〞	0x301e	12318	DOUBLE PRIME QUOTATION MARK
-〟	0x301f	12319	LOW DOUBLE PRIME QUOTATION MARK
-＂	0xff02	65282	FULLWIDTH QUOTATION MARK
-🙶	0x1f676	128630	SANS-SERIF HEAVY DOUBLE TURNED COMMA QUOTATION MARK ORNAMENT
-🙷	0x1f677	128631	SANS-SERIF HEAVY DOUBLE COMMA QUOTATION MARK ORNAMENT
-🙸	0x1f678	128632	SANS-SERIF HEAVY LOW DOUBLE COMMA QUOTATION MARK ORNAMENT
- 󠀢	0xe0022	917538	TAG QUOTATION MARK
+...
+```
+
+List named blocks:
+
+```
+target/debug/uc-info -l
+basiclatin      Basic Latin
+latinsupplement Latin-1 Supplement
+latinextendeda  Latin Extended-A
+latinextendedb  Latin Extended-B
+ipaextensions   IPA Extensions
+spacingmodifierletters  Spacing Modifier Letters
+combiningdiacriticalmarks       Combining Diacritical Marks
+greekandcoptic  Greek and Coptic
+cyrillic        Cyrillic
+cyrillicsupplement      Cyrillic Supplement
+...
+```
+
+Search named block:
+
+```
+target/debug/uc-info -b mathematicaloperators -s integral
+∫       0x222b  8747    INTEGRAL
+∬       0x222c  8748    DOUBLE INTEGRAL
+∭       0x222d  8749    TRIPLE INTEGRAL
+∮       0x222e  8750    CONTOUR INTEGRAL
+∯       0x222f  8751    SURFACE INTEGRAL
+∰       0x2230  8752    VOLUME INTEGRAL
+∱       0x2231  8753    CLOCKWISE INTEGRAL
+∲       0x2232  8754    CLOCKWISE CONTOUR INTEGRAL
+∳       0x2233  8755    ANTICLOCKWISE CONTOUR INTEGRAL
 ```
