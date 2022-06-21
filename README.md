@@ -50,13 +50,6 @@ e	0x65	101	LATIN SMALL LETTER E
 ”	0x201d	8221	RIGHT DOUBLE QUOTATION MARK
 ```
 
-Transcribe codepoints into a string:
-
-```
-$ uc-info -t x68 x65 x6c x6c x6f
-hello
-```
-
 Search only emoji by description:
 
 ```
