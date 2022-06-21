@@ -108,7 +108,7 @@ fn main() {
             .add_option(&["--emoji"], StoreTrue,
             "Consider only the emoji block");
         ap.refer(&mut positional_args)
-            .add_argument("codepoint", Collect,
+            .add_argument("args", Collect,
             "Codepoint to describe. Prefix with x/o for hex/octal.");
         ap.parse_args_or_exit();
     }
