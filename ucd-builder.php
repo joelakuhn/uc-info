@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 $ucd_path = isset($argv[1]) ? $argv[1] : false;
