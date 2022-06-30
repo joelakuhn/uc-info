@@ -24,6 +24,8 @@ else {
     exit();
 }
 
+ob_start();
+
 ?>
 pub struct UCEntry {
     pub cp: u32,
@@ -65,3 +67,6 @@ pub fn get_uc_table(start: u32, end: u32) -> &'static [UCEntry] {
         return &UC_TABLE[ustart..uend];
     }
 }
+<?php
+
+file_put_contents('src/uc_table.rs', ob_get_clean());
