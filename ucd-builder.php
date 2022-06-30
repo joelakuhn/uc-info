@@ -1,9 +1,9 @@
 <?php
 
-$ucd_path = 'ucd.nounihan.flat.xml';
+$ucd_path = isset($argv[1]) ? $argv[1] : false;
 $ucd_chars = [];
 
-if (file_exists($ucd_path)) {
+if ($ucd_path && file_exists($ucd_path)) {
     $doc = simplexml_load_file($ucd_path);
     $doc->registerXPathNamespace('ns', 'http://www.unicode.org/ns/2003/ucd/1.0');
     $ucd_chars = array_map(function($char) {
