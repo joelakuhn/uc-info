@@ -6,16 +6,16 @@ A command line utility for looking up and inspecting unicode characters.
 
 ```
 Usage:
-  target/debug/uc-info [OPTIONS] [ARGS ...]
+  target/release/uc-info [OPTIONS] [ARGS ...]
 
 Positional arguments:
-  args                  Codepoint to describe. Prefix with x/o for hex/octal.
+  args                  Arguments to the selected operation
 
 Optional arguments:
   -h,--help             Show this help message and exit
-  -c,--decode           Decode codepoints (default)
+  -d,--decode           Decode codepoints (default)
   -t,--transcribe       Convert codepoints to characters
-  -d,--describe         Describe characters
+  -i,--identify         Identify characters
   -s,--search           Search for a character by description
   -l,--list-blocks      List known blocks
   -b,--block BLOCK      Specify a named block
@@ -39,10 +39,10 @@ $ uc-info -t x68 x65 x6c x6c x6f
 hello
 ```
 
-Describe characters:
+Identify characters:
 
 ```
-$ uc-info -d '“naïve”'
+$ uc-info -i '“naïve”'
 “	0x201c	8220	LEFT DOUBLE QUOTATION MARK
 n	0x6e	110	LATIN SMALL LETTER N
 a	0x61	97	LATIN SMALL LETTER A

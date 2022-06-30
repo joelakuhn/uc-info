@@ -82,7 +82,7 @@ fn main() {
     let mut transcribe = false;
 
     let mut decode = true;
-    let mut describe = false;
+    let mut identify = false;
     let mut search = false;
     let mut list = false;
     let mut ascii = false;
@@ -94,14 +94,14 @@ fn main() {
     {
         let mut ap = ArgumentParser::new();
         ap.refer(&mut decode)
-            .add_option(&["-c", "--decode"], StoreTrue,
+            .add_option(&["-d", "--decode"], StoreTrue,
             "Decode codepoints (default)");
         ap.refer(&mut transcribe)
             .add_option(&["-t", "--transcribe"], StoreTrue,
             "Convert codepoints to characters");
-        ap.refer(&mut describe)
-            .add_option(&["-d", "--describe"], StoreTrue,
-            "Describe characters");
+        ap.refer(&mut identify)
+            .add_option(&["-i", "--identify"], StoreTrue,
+            "Identify characters");
         ap.refer(&mut search)
             .add_option(&["-s", "--search"], StoreTrue,
             "Search for a character by description");
@@ -119,7 +119,7 @@ fn main() {
             "Consider only the emoji block");
         ap.refer(&mut positional_args)
             .add_argument("args", Collect,
-            "Codepoint to describe. Prefix with x/o for hex/octal.");
+            "Arguments to the selected operation");
         ap.parse_args_or_exit();
     }
 
@@ -162,7 +162,7 @@ fn main() {
             search_keyword(uc_block, arg.as_str());
         }
     }
-    else if describe {
+    else if identify {
         for arg in &positional_args {
             for c in arg.chars() {
                 codepoint_lookup(uc_block, c as u32);
