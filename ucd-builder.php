@@ -69,4 +69,6 @@ pub fn get_uc_table(start: u32, end: u32) -> &'static [UCEntry] {
 }
 <?php
 
-file_put_contents('src/uc_table.rs', ob_get_clean());
+if (file_put_contents('src/uc_table.rs', ob_get_clean()) === false) {
+    echo 'Could not write `src/uc_table.rs`';
+}
