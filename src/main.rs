@@ -1,7 +1,12 @@
 extern crate argparse;
+extern crate atty;
+
 mod uc_table;
 mod uc_blocks;
 
+use std::fs::File;
+use std::io::Read;
+use std::io;
 use std::u32;
 use std::char;
 use std::process::exit;
@@ -77,6 +82,30 @@ fn codepoint_lookup(uc_block: &[uc_table::UCEntry], cp: u32) {
     }
 }
 
+fn maybe_read_streams(file: Option<String>) -> Option<String> {
+    if !atty::is(atty::Stream::Stdin) {
+        let mut contents = String::from("");
+        if io::stdin().read_to_string(&mut contents).is_ok() {
+            return Some(contents);
+        }
+    }
+    else if file.is_some() {
+        match File::open(file.as_ref().unwrap()) {
+            Ok(mut reader) => {
+                let mut contents = String::from("");
+                if reader.read_to_string(&mut contents).is_ok() {
+                    return Some(contents);
+                }
+            },
+            Err(e) => {
+                eprintln!("Could not read: {}", file.as_ref().unwrap());
+                eprintln!("{}", e);
+            }
+        };
+    }
+    return None;
+}
+
 fn main() {
     let mut positional_args : Vec<String> = vec![];
     let mut transcribe = false;
@@ -90,6 +119,7 @@ fn main() {
     let mut start : u32 = 0;
     let mut end : u32 = 0;
     let mut block_arg : Option<String> = None;
+    let mut file : Option<String> = None;
 
     {
         let mut ap = ArgumentParser::new();
@@ -117,6 +147,9 @@ fn main() {
         ap.refer(&mut emoji)
             .add_option(&["--emoji"], StoreTrue,
             "Consider only the emoji block");
+        ap.refer(&mut file)
+            .add_option(&["-f", "--file"], StoreOption,
+            "Specify file");
         ap.refer(&mut positional_args)
             .add_argument("args", Collect,
             "Arguments to the selected operation");
@@ -128,6 +161,11 @@ fn main() {
             println!("{:7x}{:7x}  {:40}\t{}", block.start, block.end, block.tex_name, block.description);
         }
         return;
+    }
+
+    match maybe_read_streams(file) {
+        Some(contents) => positional_args.push(contents),
+        None => {}
     }
 
     match block_arg {

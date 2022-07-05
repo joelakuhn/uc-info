@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 
 argparse = "0.2.2"
+atty="0.2.14"
