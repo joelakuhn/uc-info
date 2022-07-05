@@ -6,7 +6,7 @@ A command line utility for looking up and inspecting unicode characters.
 
 ```
 Usage:
-  target/release/uc-info [OPTIONS] [ARGS ...]
+  uc-info [OPTIONS] [ARGS ...]
 
 Positional arguments:
   args                  Arguments to the selected operation
@@ -17,6 +17,8 @@ Optional arguments:
   -t,--transcribe       Convert codepoints to characters
   -i,--identify         Identify characters
   -s,--search           Search for a character by description
+  -h,--highlight        Highlight non-ascii characters
+  -f,--file FILE        Specify file
   -l,--list-blocks      List known blocks
   -b,--block BLOCK      Specify a named block
   --ascii               Consider only the ASCII block
@@ -51,6 +53,13 @@ v	0x76	118	LATIN SMALL LETTER V
 e	0x65	101	LATIN SMALL LETTER E
 ”	0x201d	8221	RIGHT DOUBLE QUOTATION MARK
 ```
+
+Highlight non-ascii characters:
+
+<code>
+$ uc-info -h '“naïve”'
+<span style="background-color: magenta;">“</span>na<span style="background-color: magenta;">ï</span>ve<span style="background-color: magenta;">”</span>
+</code>
 
 Search only emoji by description:
 
