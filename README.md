@@ -58,7 +58,7 @@ Highlight non-ascii characters:
 
 <pre><code>
 $ uc-info -h '“naïve”'
-<span style="background-color: #ff00ff;">“</span>na<span style="background-color: #ff00ff;">ï</span>ve<span style="background-color: #ff00ff;">”</span>
+<mark style="background-color: #ff00ff;">“</mark>na<mark style="background-color: #ff00ff;">ï</mark>ve<mark style="background-color: #ff00ff;">”</mark>
 </code></pre>
 
 Search only emoji by description:
