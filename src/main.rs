@@ -164,6 +164,9 @@ fn main() {
         ap.refer(&mut highlight)
             .add_option(&["-h", "--highlight"], StoreTrue,
             "Highlight non-ascii characters");
+        ap.refer(&mut file)
+            .add_option(&["-f", "--file"], StoreOption,
+            "Specify file");
         ap.refer(&mut list)
             .add_option(&["-l", "--list-blocks"], StoreTrue,
             "List known blocks");
@@ -176,9 +179,6 @@ fn main() {
         ap.refer(&mut emoji)
             .add_option(&["--emoji"], StoreTrue,
             "Consider only the emoji block");
-        ap.refer(&mut file)
-            .add_option(&["-f", "--file"], StoreOption,
-            "Specify file");
         ap.refer(&mut positional_args)
             .add_argument("args", Collect,
             "Arguments to the selected operation");
