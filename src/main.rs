@@ -82,6 +82,29 @@ fn codepoint_lookup(uc_block: &[uc_table::UCEntry], cp: u32) {
     }
 }
 
+fn print_highlighted(str: &str) {
+    for c in str.chars() {
+        let c_u32 = c as u32;
+        if c_u32 > 127 {
+            // 1:  bold
+            // 37: white foreground
+            // 97: axiterm bright white forground
+            // 45: magenta background
+            print!("\x1b[1;37;97;45m");
+
+            if c_u32 == 0x200b { print!("<zero-width-space>"); }
+            else if c_u32 == 0x200c { print!("<zero-width-non-joiner>"); }
+            else if c_u32 == 0x200d { print!("<zero-width-joiner>"); }
+            else if c_u32 == 0xfeff { print!("<zero-width-no-break-space>"); }
+            else { print!("{}", c); }
+            print!("\x1b[0m");
+        }
+        else {
+            print!("{}", c);
+        }
+    }
+}
+
 fn maybe_read_streams(file: Option<String>) -> Option<String> {
     if !atty::is(atty::Stream::Stdin) {
         let mut contents = String::from("");
@@ -108,17 +131,20 @@ fn maybe_read_streams(file: Option<String>) -> Option<String> {
 
 fn main() {
     let mut positional_args : Vec<String> = vec![];
-    let mut transcribe = false;
 
+    let mut transcribe = false;
     let mut decode = true;
     let mut identify = false;
     let mut search = false;
     let mut list = false;
+    let mut highlight = false;
+
     let mut ascii = false;
     let mut emoji = false;
     let mut start : u32 = 0;
     let mut end : u32 = 0;
     let mut block_arg : Option<String> = None;
+
     let mut file : Option<String> = None;
 
     {
@@ -135,6 +161,9 @@ fn main() {
         ap.refer(&mut search)
             .add_option(&["-s", "--search"], StoreTrue,
             "Search for a character by description");
+        ap.refer(&mut highlight)
+            .add_option(&["-h", "--highlight"], StoreTrue,
+            "Highlight non-ascii characters");
         ap.refer(&mut list)
             .add_option(&["-l", "--list-blocks"], StoreTrue,
             "List known blocks");
@@ -210,6 +239,11 @@ fn main() {
     else if transcribe {
         for codepoint_str in &positional_args {
             print_codepoint(codepoint_str.as_str());
+        }
+    }
+    else if highlight {
+        for str in &positional_args {
+            print_highlighted(str);
         }
     }
     else if decode && positional_args.len() > 0 {
