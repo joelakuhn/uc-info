@@ -54,12 +54,12 @@ e	0x65	101	LATIN SMALL LETTER E
 ”	0x201d	8221	RIGHT DOUBLE QUOTATION MARK
 ```
 
-Highlight non-ascii characters:
+Highlight non-ascii characters. Imagine this looks the way you think it would. Github markdown doesn't have any abilility to highlight characters.
 
-<pre><code>
+```
 $ uc-info -h '“naïve”'
-**“**na**ï**ve**”**
-</code></pre>
+“naïve”
+```
 
 Search only emoji by description:
 
