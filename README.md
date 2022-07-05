@@ -56,10 +56,10 @@ e	0x65	101	LATIN SMALL LETTER E
 
 Highlight non-ascii characters:
 
-<code>
-$ uc-info -h '“naïve”'<br>
+<pre><code>
+$ uc-info -h '“naïve”'
 <span style="background-color: #ff00ff;">“</span>na<span style="background-color: #ff00ff;">ï</span>ve<span style="background-color: #ff00ff;">”</span>
-</code>
+</code></pre>
 
 Search only emoji by description:
 
