@@ -164,7 +164,7 @@ fn main() {
             "Search for a character by description");
         ap.refer(&mut highlight)
             .add_option(&["-h", "--highlight"], StoreTrue,
-            "Highlight non-ascii characters");
+            "Highlight characters not in the current block");
         ap.refer(&mut file)
             .add_option(&["-f", "--file"], StoreOption,
             "Specify file");

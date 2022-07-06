@@ -17,7 +17,7 @@ Optional arguments:
   -t,--transcribe       Convert codepoints to characters
   -i,--identify         Identify characters
   -s,--search           Search for a character by description
-  -h,--highlight        Highlight non-ascii characters
+  -h,--highlight        Highlight characters not in the current block
   -f,--file FILE        Specify file
   -l,--list-blocks      List known blocks
   -b,--block BLOCK      Specify a named block
