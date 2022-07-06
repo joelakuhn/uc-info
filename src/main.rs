@@ -82,10 +82,10 @@ fn codepoint_lookup(uc_block: &[uc_table::UCEntry], cp: u32) {
     }
 }
 
-fn print_highlighted(str: &str) {
+fn print_highlighted(str: &str, hi_start: u32, hi_end: u32) {
     for c in str.chars() {
         let c_u32 = c as u32;
-        if c_u32 > 127 {
+        if c_u32 < hi_start || c_u32 > hi_end  {
             // 1:  bold
             // 37: white foreground
             // 97: axiterm bright white forground
@@ -251,7 +251,12 @@ fn main() {
     }
     else if highlight {
         for str in &positional_args {
-            print_highlighted(str);
+            let (hi_start, hi_end) = if end > 0 {
+                (start, end)
+            } else {
+                (0, 127)
+            };
+            print_highlighted(str, hi_start, hi_end);
         }
     }
     else if decode && positional_args.len() > 0 {
