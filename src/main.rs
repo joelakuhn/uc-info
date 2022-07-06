@@ -140,6 +140,7 @@ fn main() {
     let mut highlight = false;
 
     let mut ascii = false;
+    let mut ascii_ext = false;
     let mut emoji = false;
     let mut start : u32 = 0;
     let mut end : u32 = 0;
@@ -176,6 +177,9 @@ fn main() {
         ap.refer(&mut ascii)
             .add_option(&["--ascii"], StoreTrue,
             "Consider only the ASCII block");
+        ap.refer(&mut ascii_ext)
+            .add_option(&["--ascii-ext"], StoreTrue,
+            "Consider only the ASCII extended block");
         ap.refer(&mut emoji)
             .add_option(&["--emoji"], StoreTrue,
             "Consider only the emoji block");
@@ -214,6 +218,10 @@ fn main() {
     };
 
     if ascii {
+        start = 0u32;
+        end = 127u32;
+    }
+    else if ascii_ext {
         start = 0u32;
         end = 255u32;
     }
