@@ -22,6 +22,7 @@ Optional arguments:
   -l,--list-blocks      List known blocks
   -b,--block BLOCK      Specify a named block
   --ascii               Consider only the ASCII block
+  --ascii-ext           Consider only the ASCII extended block
   --emoji               Consider only the emoji block
 ```
 
