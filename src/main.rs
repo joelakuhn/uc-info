@@ -91,12 +91,44 @@ fn print_highlighted(str: &str, hi_start: u32, hi_end: u32) {
             // 97: axiterm bright white forground
             // 45: magenta background
             print!("\x1b[1;37;97;45m");
+            match c_u32 {
+                0x0  => print!("<null>"),
+                0x1  => print!("<start-of-heading>"),
+                0x2  => print!("<start-of-text>"),
+                0x3  => print!("<end-of-text>"),
+                0x4  => print!("<end-of-transmission>"),
+                0x5  => print!("<enquiry>"),
+                0x6  => print!("<acknowledge>"),
+                0x7  => print!("<bell>"),
+                0x8  => print!("<backspace>"),
+                0x9  => print!("<character-tabulation>"),
+                0xb  => print!("<line-tabulation>"),
+                0xc  => print!("<form-feed-(ff)>"),
+                0xe  => print!("<shift-out>"),
+                0xf  => print!("<shift-in>"),
+                0x10 => print!("<data-link-escape>"),
+                0x11 => print!("<device-control-one>"),
+                0x12 => print!("<device-control-two>"),
+                0x13 => print!("<device-control-three>"),
+                0x14 => print!("<device-control-four>"),
+                0x15 => print!("<negative-acknowledge>"),
+                0x16 => print!("<synchronous-idle>"),
+                0x17 => print!("<end-of-transmission-block>"),
+                0x18 => print!("<cancel>"),
+                0x19 => print!("<end-of-medium>"),
+                0x1a => print!("<substitute>"),
+                0x1b => print!("<escape>"),
+                0x1c => print!("<information-separator-four>"),
+                0x1d => print!("<information-separator-three>"),
+                0x1e => print!("<information-separator-two>"),
+                0x1f => print!("<information-separator-one>"),
+                0x200b => print!("<zero-width-space>"),
+                0x200c => print!("<zero-width-non-joiner>"),
+                0x200d => print!("<zero-width-joiner>"),
+                0xfeff => print!("<zero-width-no-break-space>"),
+                _ => print!("{}", c)
+            };
 
-            if c_u32 == 0x200b { print!("<zero-width-space>"); }
-            else if c_u32 == 0x200c { print!("<zero-width-non-joiner>"); }
-            else if c_u32 == 0x200d { print!("<zero-width-joiner>"); }
-            else if c_u32 == 0xfeff { print!("<zero-width-no-break-space>"); }
-            else { print!("{}", c); }
             print!("\x1b[0m");
         }
         else {
