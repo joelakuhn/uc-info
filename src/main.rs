@@ -264,7 +264,7 @@ fn main() {
             codepoint_str_lookup(uc_block, codepoint_str.as_str());
         }
     }
-    else if start != 0 && end != 0 {
+    else if end != 0 {
         search_keyword(uc_block, "*");
     }
 }
