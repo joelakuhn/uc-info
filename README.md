@@ -2,6 +2,10 @@
 
 A command line utility for looking up and inspecting unicode characters.
 
+## Building
+
+This repository includes a pre-built unicode table in `src/uc_table.rs`. You can also build your own using the `ucd-builder.php` script. Passing no arguments to the script will instruct you on how to download the appropriate UCD XML file and generate the rust source files.
+
 ## Usage
 
 ```
