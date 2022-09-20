@@ -62,13 +62,17 @@ pub fn get_uc_table(start: u32, end: u32) -> &'static [UCEntry] {
             else if c.cp > end {
                 uend = i;
                 break;
-            } 
+            }
         }
         return &UC_TABLE[ustart..uend];
     }
 }
 <?php
 
-if (file_put_contents('src/uc_table.rs', ob_get_clean()) === false) {
-    echo 'Could not write `src/uc_table.rs`';
+if (file_put_contents('src/uc_table.rs', ob_get_clean()) !== false) {
+    echo "Successfully generated `src/uc_table.rs`.\n\n";
+    echo "You can now build with `cargo build`.\n";
+}
+else {
+    echo "Could not write `src/uc_table.rs`\n";
 }
