@@ -17,7 +17,7 @@ if ($ucd_path && file_exists($ucd_path)) {
 }
 else {
     echo "You must first download the ucd xml file from:\n";
-    echo "https://www.unicode.org/Public/14.0.0/ucdxml/ucd.nounihan.flat.zip\n\n";
+    echo "https://www.unicode.org/Public/15.0.0/ucdxml/ucd.nounihan.flat.zip\n\n";
     echo "You can see other versions at:\n";
     echo "https://www.unicode.org/Public/\n\n";
     echo "Pass this file as the first argument to the ucd-builder.php script.";
