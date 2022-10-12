@@ -183,8 +183,8 @@ fn main() {
     {
         let mut ap = ArgumentParser::new();
         ap.refer(&mut decode)
-            .add_option(&["-d", "--decode"], StoreTrue,
-            "Decode codepoints (default)");
+            .add_option(&["-d", "--describe"], StoreTrue,
+            "Describe codepoints (default)");
         ap.refer(&mut transcribe)
             .add_option(&["-t", "--transcribe"], StoreTrue,
             "Convert codepoints to characters");

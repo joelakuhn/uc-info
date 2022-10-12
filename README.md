@@ -17,7 +17,7 @@ Positional arguments:
 
 Optional arguments:
   -h,--help             Show this help message and exit
-  -d,--decode           Decode codepoints (default)
+  -d,--describe         Describe codepoints (default)
   -t,--transcribe       Convert codepoints to characters
   -i,--identify         Identify characters
   -s,--search           Search for a character by description
