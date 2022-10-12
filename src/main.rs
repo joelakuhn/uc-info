@@ -23,6 +23,10 @@ fn describe(c: &uc_table::UCEntry) -> &'static str {
 }
 
 fn parse_int(codepoint_str : &str) -> Option<u32> {
+    if codepoint_str == "0" {
+        return Some(0);
+    }
+
     let maybe_cp = match codepoint_str.chars().nth(0) {
         Some('0') => {
             let (_, sliced) = codepoint_str.split_at(1);
