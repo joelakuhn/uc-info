@@ -52,6 +52,19 @@ fn parse_int(codepoint_str : &str) -> Option<u32> {
     }
 }
 
+fn parse_numeric_block(block_str: &str) -> Option<(u32, u32)> {
+    let sides = block_str.split("..").collect::<Vec<&str>>();
+    if sides.len() == 2 {
+        let start = parse_int(sides[0]);
+        let end = parse_int(sides[1]);
+
+        if start.is_some() && end.is_some() {
+            return Some((start.unwrap(), end.unwrap()));
+        }
+    }
+    return None;
+}
+
 fn search_keyword(uc_block: &[uc_table::UCEntry], search_str: &str) {
     let upper_arg = search_str.to_uppercase();
     for c in uc_block {
@@ -245,8 +258,16 @@ fn main() {
                     end = block.end;
                 }
                 None => {
-                    eprintln!("Unknown block: {}", block_name);
-                    exit(1);
+                    match parse_numeric_block(block_name.as_str()) {
+                        Some((block_start, block_end)) => {
+                            start = block_start;
+                            end = block_end;
+                        }
+                        None => {
+                            eprintln!("Unknown block: {}", block_name);
+                            exit(1);
+                        }
+                    }
                 }
             };
         },
