@@ -24,7 +24,7 @@ Optional arguments:
   -h,--highlight        Highlight characters not in the current block
   -f,--file FILE        Specify file
   -l,--list-blocks      List known blocks
-  -b,--block BLOCK      Specify a named block
+  -b,--block BLOCK      Consider only a named block or range as start-end
   --ascii               Consider only the ASCII block
   --ascii-ext           Consider only the ASCII extended block
   --emoji               Consider only the emoji block

@@ -222,7 +222,7 @@ fn main() {
             "List known blocks");
         ap.refer(&mut block_arg)
             .add_option(&["-b", "--block"], StoreOption,
-            "Specify a named block or range as start-end");
+            "Consider only a named block or range as start-end");
         ap.refer(&mut ascii)
             .add_option(&["--ascii"], StoreTrue,
             "Consider only the ASCII block");
