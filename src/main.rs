@@ -53,7 +53,7 @@ fn parse_int(codepoint_str : &str) -> Option<u32> {
 }
 
 fn parse_numeric_block(block_str: &str) -> Option<(u32, u32)> {
-    let sides = block_str.split("..").collect::<Vec<&str>>();
+    let sides = block_str.split("-").collect::<Vec<&str>>();
     if sides.len() == 2 {
         let start = parse_int(sides[0]);
         let end = parse_int(sides[1]);
@@ -222,7 +222,7 @@ fn main() {
             "List known blocks");
         ap.refer(&mut block_arg)
             .add_option(&["-b", "--block"], StoreOption,
-            "Specify a named block");
+            "Specify a named block or range as start-end");
         ap.refer(&mut ascii)
             .add_option(&["--ascii"], StoreTrue,
             "Consider only the ASCII block");
