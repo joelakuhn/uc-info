@@ -182,7 +182,7 @@ fn main() {
     let mut positional_args : Vec<String> = vec![];
 
     let mut transcribe = false;
-    let mut decode = true;
+    let mut describe = true;
     let mut identify = false;
     let mut search = false;
     let mut list = false;
@@ -199,7 +199,7 @@ fn main() {
 
     {
         let mut ap = ArgumentParser::new();
-        ap.refer(&mut decode)
+        ap.refer(&mut describe)
             .add_option(&["-d", "--describe"], StoreTrue,
             "Describe codepoints (default)");
         ap.refer(&mut transcribe)
@@ -316,7 +316,7 @@ fn main() {
             print_highlighted(str, hi_start, hi_end);
         }
     }
-    else if decode && positional_args.len() > 0 {
+    else if describe && positional_args.len() > 0 {
         for codepoint_str in &positional_args {
             codepoint_str_lookup(uc_block, codepoint_str.as_str());
         }
