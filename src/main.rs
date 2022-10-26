@@ -95,8 +95,10 @@ fn codepoint_lookup(uc_block: &[uc_table::UCEntry], cp: u32) {
     for c in uc_block {
         if c.cp == cp {
             println!("{}\t{:#x}\t{}\t{}", c.c, c.cp, c.cp, describe(c));
+            return;
         }
     }
+    println!("{}\t{:#x}\t{}\t{}", "", cp, cp, "<invalid codepoint>")
 }
 
 fn print_highlighted(str: &str, hi_start: u32, hi_end: u32) {
