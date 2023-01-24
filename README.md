@@ -47,6 +47,13 @@ $ uc-info -t x68 x65 x6c x6c x6f
 hello
 ```
 
+Transcribe binary codepoints without prefixes:
+
+```
+$ uc-info -t --base 2 1101000 1100101 1101100 1101100 1101111
+hello
+```
+
 Identify characters:
 
 ```
@@ -73,13 +80,6 @@ Search only emoji by description:
 $ uc-info --emoji -s tomato frog
 🍅	0x1f345	127813	TOMATO
 🐸	0x1f438	128056	FROG FACE
-```
-
-Translate binary codepoints without prefixes:
-
-```
-$ uc-info -t --base 2 1101000 1100101 1101100 1101100 1101111
-hello
 ```
 
 Search entire library by description:
