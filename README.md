@@ -23,6 +23,7 @@ Optional arguments:
   -s,--search           Search for a character by description
   -h,--highlight        Highlight characters not in the current block
   -f,--file FILE        Specify file
+  -B,--base BASE        Choose a number base to apply to all integers
   -l,--list-blocks      List known blocks
   -b,--block BLOCK      Consider only a named block or range as start-end
   --ascii               Consider only the ASCII block
@@ -72,6 +73,13 @@ Search only emoji by description:
 $ uc-info --emoji -s tomato frog
 🍅	0x1f345	127813	TOMATO
 🐸	0x1f438	128056	FROG FACE
+```
+
+Translate binary codepoints without prefixes:
+
+```
+$ uc-info -t --base 2 1101000 1100101 1101100 1101100 1101111
+hello
 ```
 
 Search entire library by description:
