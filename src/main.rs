@@ -22,15 +22,22 @@ fn describe(c: &uc_table::UCEntry) -> &'static str {
     return "";
 }
 
-fn parse_int(codepoint_str : &str) -> Option<u32> {
+fn parse_int(codepoint_str : &str, base : Option<u32>) -> Option<u32> {
     if codepoint_str == "0" {
         return Some(0);
+    }
+
+    if base.is_some() {
+        return match u32::from_str_radix(codepoint_str, base.unwrap()) {
+            Ok(n) => Some(n),
+            _ => None
+        }
     }
 
     let maybe_cp = match codepoint_str.chars().nth(0) {
         Some('0') => {
             let (_, sliced) = codepoint_str.split_at(1);
-            return parse_int(sliced);
+            return parse_int(sliced, base);
         }
         Some('x') => {
             let (_, sliced) = codepoint_str.split_at(1);
@@ -55,8 +62,8 @@ fn parse_int(codepoint_str : &str) -> Option<u32> {
 fn parse_numeric_block(block_str: &str) -> Option<(u32, u32)> {
     let sides = block_str.split("-").collect::<Vec<&str>>();
     if sides.len() == 2 {
-        let start = parse_int(sides[0]);
-        let end = parse_int(sides[1]);
+        let start = parse_int(sides[0], None);
+        let end = parse_int(sides[1], None);
 
         if start.is_some() && end.is_some() {
             return Some((start.unwrap(), end.unwrap()));
@@ -74,15 +81,15 @@ fn search_keyword(uc_block: &[uc_table::UCEntry], search_str: &str) {
     }
 }
 
-fn codepoint_str_lookup(uc_block: &[uc_table::UCEntry], codepoint_str: &str) {
-    match parse_int(codepoint_str) {
+fn codepoint_str_lookup(uc_block: &[uc_table::UCEntry], codepoint_str: &str, base : Option<u32>) {
+    match parse_int(codepoint_str, base) {
         Some(n) => codepoint_lookup(uc_block, n),
         None => println!("Malformed integer: {}", codepoint_str),
     };
 }
 
-fn print_codepoint(codepoint_str: &str) {
-    match parse_int(codepoint_str) {
+fn print_codepoint(codepoint_str: &str, base : Option<u32>) {
+    match parse_int(codepoint_str, base) {
         Some(n) => match char::from_u32(n) {
             Some(c) => print!("{}", c),
             None => println!("Bad codepoint: {}", codepoint_str),
@@ -189,6 +196,7 @@ fn main() {
     let mut search = false;
     let mut list = false;
     let mut highlight = false;
+    let mut base_opt : Option<String> = None;
 
     let mut ascii = false;
     let mut ascii_ext = false;
@@ -219,6 +227,9 @@ fn main() {
         ap.refer(&mut file)
             .add_option(&["-f", "--file"], StoreOption,
             "Specify file");
+        ap.refer(&mut base_opt)
+            .add_option(&["-B", "--base"], StoreOption,
+            "Choose a number base to apply to all integers");
         ap.refer(&mut list)
             .add_option(&["-l", "--list-blocks"], StoreTrue,
             "List known blocks");
@@ -239,6 +250,11 @@ fn main() {
             "Arguments to the selected operation");
         ap.parse_args_or_exit();
     }
+
+    let base = match base_opt {
+        Some(str) => parse_int(&str, None),
+        None => None,
+    };
 
     if list {
         for block in uc_blocks::get_uc_blocks() {
@@ -305,7 +321,7 @@ fn main() {
     }
     else if transcribe {
         for codepoint_str in &positional_args {
-            print_codepoint(codepoint_str.as_str());
+            print_codepoint(codepoint_str.as_str(), base);
         }
     }
     else if highlight {
@@ -320,7 +336,7 @@ fn main() {
     }
     else if describe && positional_args.len() > 0 {
         for codepoint_str in &positional_args {
-            codepoint_str_lookup(uc_block, codepoint_str.as_str());
+            codepoint_str_lookup(uc_block, codepoint_str.as_str(), base);
         }
     }
     else if end != 0 {
