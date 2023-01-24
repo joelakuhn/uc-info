@@ -22,41 +22,50 @@ fn describe(c: &uc_table::UCEntry) -> &'static str {
     return "";
 }
 
+fn split_numerical_prefix(str : &str) -> (&str, &str) {
+    match str.strip_prefix("0b") {
+        Some(n) => { return ("b", n); },
+        None => {},
+    }
+    match str.strip_prefix("0x") {
+        Some(n) => { return ("x", n); },
+        None => {},
+    }
+    match str.strip_prefix("x") {
+        Some(n) => { return ("x", n); },
+        None => {},
+    }
+    match str.strip_prefix("0o") {
+        Some(n) => { return ("o", n); },
+        None => {},
+    }
+    match str.strip_prefix("o") {
+        Some(n) => { return ("o", n); },
+        None => {},
+    }
+    return ("", &str);
+}
+
 fn parse_int(codepoint_str : &str, base : Option<u32>) -> Option<u32> {
     if codepoint_str == "0" {
         return Some(0);
     }
 
+    let (prefix, number) = split_numerical_prefix(codepoint_str);
+
     if base.is_some() {
-        return match u32::from_str_radix(codepoint_str, base.unwrap()) {
+        return match u32::from_str_radix(number, base.unwrap()) {
             Ok(n) => Some(n),
             _ => None
         }
     }
 
-    let maybe_cp = match codepoint_str.chars().nth(0) {
-        Some('0') => {
-            let (_, sliced) = codepoint_str.split_at(1);
-            return parse_int(sliced, base);
-        }
-        Some('x') => {
-            let (_, sliced) = codepoint_str.split_at(1);
-            u32::from_str_radix(sliced, 16)
-        },
-        Some('o') => {
-            let (_, sliced) = codepoint_str.split_at(1);
-            u32::from_str_radix(sliced, 8)
-        },
-        Some('b') => {
-            let (_, sliced) = codepoint_str.split_at(1);
-            u32::from_str_radix(sliced, 2)
-        },
-        _ => codepoint_str.parse::<u32>(),
+    return match prefix {
+        "x" => match u32::from_str_radix(number, 16) { Ok(n) => Some(n), _ => None },
+        "o" => match u32::from_str_radix(number, 8) { Ok(n) => Some(n), _ => None },
+        "b" => match u32::from_str_radix(number, 2) { Ok(n) => Some(n), _ => None },
+        _ => match u32::from_str_radix(number, 10) { Ok(n) => Some(n), _ => None },
     };
-    return match maybe_cp {
-        Ok(n) => Some(n),
-        _ => None,
-    }
 }
 
 fn parse_numeric_block(block_str: &str) -> Option<(u32, u32)> {
